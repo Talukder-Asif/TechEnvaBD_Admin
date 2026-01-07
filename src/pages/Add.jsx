@@ -19,13 +19,15 @@ const Add = ({ token }) => {
   const [formData, setFormData] = useState({
     _type: "",
     name: "",
+    slug: "",
+    shortDescription: "",
     description: "",
     brand: "",
     price: "",
-    discountedPercentage: 10,
-    stock: "",
+    discountedPercentage: 0,
+    stock: 20,
     category: "",
-    offer: false,
+    free_delivery: false,
     isAvailable: true,
     badge: false,
     tags: [],
@@ -70,6 +72,14 @@ const Add = ({ token }) => {
   // Handle input change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === "name") {
+      setFormData({
+        ...formData,
+        name: value,
+        slug: value.toLowerCase().trim().replace(/\s+/g, "-"),
+      });
+      return;
+    }
     if (type === "checkbox") {
       setFormData({
         ...formData,
@@ -77,7 +87,7 @@ const Add = ({ token }) => {
       });
     } else if (
       type === "select-one" &&
-      (name === "offer" || name === "isAvailable" || name === "badge")
+      (name === "free_delivery" || name === "isAvailable" || name === "badge")
     ) {
       setFormData({
         ...formData,
@@ -146,18 +156,20 @@ const Add = ({ token }) => {
       const data = new FormData();
 
       // Append form fields
-      data.append("_type", formData._type);
-      data.append("name", formData.name);
-      data.append("description", formData.description);
-      data.append("brand", formData.brand);
-      data.append("price", formData.price);
+      data.append("_type", formData?._type);
+      data.append("name", formData?.name);
+      data.append("description", formData?.description);
+      data.append("shortDescription", formData?.shortDescription);
+      data.append("slug", formData?.slug);
+      data.append("brand", formData?.brand);
+      data.append("price", formData?.price);
       data.append("discountedPercentage", formData.discountedPercentage);
-      data.append("stock", formData.stock);
-      data.append("category", formData.category);
-      data.append("offer", formData.offer);
-      data.append("isAvailable", formData.isAvailable);
-      data.append("badge", formData.badge);
-      data.append("tags", JSON.stringify(formData.tags));
+      data.append("stock", formData?.stock);
+      data.append("category", formData?.category);
+      data.append("offer", formData?.offer);
+      data.append("isAvailable", formData?.isAvailable);
+      data.append("badge", formData?.badge);
+      data.append("tags", JSON.stringify(formData?.tags));
 
       // Append image files
       Object.keys(imageFiles).forEach((key) => {
@@ -273,7 +285,7 @@ const Add = ({ token }) => {
                 Basic Information
               </h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                <div className="lg:col-span-2">
+                <div className="space-x-2">
                   <Label htmlFor="name">Product Name *</Label>
                   <Input
                     type="text"
@@ -281,11 +293,35 @@ const Add = ({ token }) => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="mt-1"
+                    className="mt-1 w-full"
+                    required
+                  />
+                </div>
+                <div className="space-x-2">
+                  <Label htmlFor="slug">Slug</Label>
+                  <Input
+                    type="text"
+                    placeholder="Enter product name"
+                    name="slug"
+                    value={formData.slug}
+                    onChange={handleChange}
+                    className="mt-1 w-full"
                     required
                   />
                 </div>
 
+                <div className="lg:col-span-2">
+                  <Label htmlFor="shortDescription">Short Description *</Label>
+                  <textarea
+                    placeholder="Enter product description"
+                    className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    rows={4}
+                    name="shortDescription"
+                    value={formData.shortDescription}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
                 <div className="lg:col-span-2">
                   <Label htmlFor="description">Description *</Label>
                   <textarea
@@ -328,10 +364,9 @@ const Add = ({ token }) => {
                     className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Select type</option>
-                    <option value="new_arrivals">New Arrivals</option>
-                    <option value="best_sellers">Best Sellers</option>
                     <option value="special_offers">Special Offers</option>
                     <option value="promotions">Promotions</option>
+                    <option value="focus_products">Focus Products</option>
                   </select>
                 </div>
               </div>
@@ -366,7 +401,7 @@ const Add = ({ token }) => {
                     type="number"
                     min="0"
                     max="100"
-                    placeholder="10"
+                    placeholder="0"
                     name="discountedPercentage"
                     value={formData.discountedPercentage}
                     onChange={handleChange}
@@ -379,7 +414,7 @@ const Add = ({ token }) => {
                   <Input
                     type="number"
                     min="0"
-                    placeholder="0"
+                    placeholder="20"
                     name="stock"
                     value={formData.stock}
                     onChange={handleChange}
@@ -433,10 +468,10 @@ const Add = ({ token }) => {
                 </div>
 
                 <div>
-                  <Label htmlFor="offer">Special Offer</Label>
+                  <Label htmlFor="offer">Free Delivery</Label>
                   <select
-                    name="offer"
-                    value={formData.offer.toString()}
+                    name="free_delivery"
+                    value={formData.free_delivery.toString()}
                     onChange={handleChange}
                     className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >

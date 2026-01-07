@@ -386,7 +386,7 @@ const Brands = () => {
                           <img
                             src={brand.image}
                             alt={brand.name}
-                            className="w-12 h-12 object-cover rounded-lg border border-gray-200"
+                            className="w-14 md:w-20 lg:w-28 object-cover rounded-lg border border-gray-200"
                           />
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -580,7 +580,7 @@ const Brands = () => {
                       <img
                         src={imagePreview}
                         alt="Preview"
-                        className="w-32 h-32 object-cover rounded-lg border"
+                        className="w-40 h-auto object-cover rounded-lg border"
                       />
                     </div>
                   )}
