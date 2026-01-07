@@ -40,15 +40,15 @@ function App() {
                   <div className="flex items-center justify-center gap-2 flex-wrap">
                     <span>💖</span>
                     <span>
-                      Support this project & get the premium source code!
+                      This project is build and maintained with ❤️ by{" "}
                     </span>
                     <a
-                      href="https://buymeacoffee.com/reactbd"
+                      href="https://asif-talukder.vercel.app/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors duration-200 text-xs font-semibold"
                     >
-                      ☕ Buy Me a Coffee
+                      Asif Talukder
                     </a>
                   </div>
                 </div>
